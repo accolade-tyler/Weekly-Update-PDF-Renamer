@@ -1,8 +1,8 @@
 import streamlit as st
-import zipfile
-import tempfile
 import os
 import re
+import tempfile
+import zipfile
 import io
 
 # -----------------------------------
@@ -23,15 +23,19 @@ CLIENT_LIST = [
 # -----------------------------------
 # RENAME LOGIC
 # -----------------------------------
-def rename_files(folder_path, date_tag=""):
+def rename_uploaded_files(uploaded_files, date_tag=""):
     results = []
-    files = sorted(os.listdir(folder_path))
+    temp_dir = tempfile.mkdtemp()  # Temporary folder to save uploaded files
 
-    for file_name in files:
-        file_path = os.path.join(folder_path, file_name)
+    # Save uploaded files to temp_dir
+    for uploaded_file in uploaded_files:
+        file_path = os.path.join(temp_dir, uploaded_file.name)
+        with open(file_path, "wb") as f:
+            f.write(uploaded_file.getbuffer())
 
-        if not os.path.isfile(file_path):
-            continue
+    # Rename files based on CLIENT_LIST
+    for file_name in sorted(os.listdir(temp_dir)):
+        file_path = os.path.join(temp_dir, file_name)
 
         match = re.search(r'(\d+)', file_name)
         if not match:
@@ -39,7 +43,6 @@ def rename_files(folder_path, date_tag=""):
             continue
 
         file_number = int(match.group(1))
-
         if not (1 <= file_number <= len(CLIENT_LIST)):
             results.append(f"⚠️ Number {file_number} out of range: {file_name}")
             continue
@@ -47,67 +50,58 @@ def rename_files(folder_path, date_tag=""):
         client_name = CLIENT_LIST[file_number - 1]
         ext = os.path.splitext(file_name)[1]
         new_name = f"{client_name}{date_tag}{ext}"
+        new_path = os.path.join(temp_dir, new_name)
 
-        os.rename(file_path, os.path.join(folder_path, new_name))
+        os.rename(file_path, new_path)
         results.append(f"✅ {file_name} → {new_name}")
 
-    return results
+    # Create a ZIP of renamed files for download
+    zip_buffer = io.BytesIO()
+    with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
+        for f in os.listdir(temp_dir):
+            zipf.write(os.path.join(temp_dir, f), arcname=f)
+    zip_buffer.seek(0)
+
+    return results, zip_buffer
+
 
 # -----------------------------------
 # STREAMLIT UI
 # -----------------------------------
-st.title("📁 PDF Renamer — Upload ZIP ➜ Download Renamed ZIP")
+st.title("📁 PDF Renamer — Upload Multiple Files")
 
 st.write("""
-### How to Use:
-1. Zip the PDFs you want renamed  
-2. Upload the ZIP file  
-3. Click *Rename*  
-4. Download the renamed PDFs as a new ZIP  
+### How to Use
+1. Select multiple PDFs to upload  
+2. Optional: Enter a date tag to append to each filename  
+3. Click *Rename and Download*  
 """)
 
-zip_file = st.file_uploader("Upload ZIP containing only PDFs", type=["zip"])
-date_tag = st.text_input("Optional Date Tag (ex: _2025_11_21)", value="")
+uploaded_files = st.file_uploader(
+    "Upload PDFs (multiple allowed)",
+    type=["pdf"],
+    accept_multiple_files=True
+)
 
-if zip_file:
-    # Create temp directory
-    temp_dir = tempfile.mkdtemp()
+date_tag = st.text_input("Optional Date Tag (e.g., _2025_11_21)", value="")
 
-    # Extract PDFs into temp folder
-    with zipfile.ZipFile(zip_file, "r") as zip_ref:
-        zip_ref.extractall(temp_dir)
-
-    folder_path = temp_dir
-    st.success("ZIP extracted successfully!")
-
-    st.write("### Files Detected:")
-    st.write(os.listdir(folder_path))
-
-    if st.button("🔄 Rename PDFs"):
+if uploaded_files:
+    if st.button("🔄 Rename and Download"):
         try:
-            results = rename_files(folder_path, date_tag)
+            results, zip_buffer = rename_uploaded_files(uploaded_files, date_tag)
 
             st.write("### Renaming Results")
             for r in results:
                 st.write(r)
 
-            st.success("Renaming complete! You can now download the converted folder.")
-
-            # Create ZIP in memory
-            buffer = io.BytesIO()
-            with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
-                for file_name in os.listdir(folder_path):
-                    file_path = os.path.join(folder_path, file_name)
-                    zipf.write(file_path, arcname=file_name)
-            buffer.seek(0)
-
-            # Provide download button
             st.download_button(
-                label="⬇️ Download Renamed ZIP",
-                data=buffer,
+                label="⬇️ Download Renamed PDFs ZIP",
+                data=zip_buffer,
                 file_name="renamed_pdfs.zip",
                 mime="application/zip"
             )
+
+            st.success("All files renamed and ready to download!")
 
         except Exception as e:
             st.error(f"Error: {e}")
