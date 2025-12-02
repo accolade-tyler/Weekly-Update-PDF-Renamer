@@ -68,13 +68,13 @@ def rename_uploaded_files(uploaded_files, date_tag=""):
 # -----------------------------------
 # STREAMLIT UI
 # -----------------------------------
-st.title("📁 PDF Renamer — Upload Multiple Files")
+st.title("Weekly Update PDF Namer")
 
 st.write("""
 ### How to Use
-1. Select multiple PDFs to upload  
-2. Optional: Enter a date tag to append to each filename  
-3. Click *Rename and Download*  
+1. Select all PDFs to upload  
+2. Optional: Enter a tag to append to each filename  
+3. Click "Rename and Download" and scroll to the bottom
 """)
 
 uploaded_files = st.file_uploader(
@@ -83,10 +83,10 @@ uploaded_files = st.file_uploader(
     accept_multiple_files=True
 )
 
-date_tag = st.text_input("Optional Date Tag (e.g., _2025_11_21)", value="")
+date_tag = st.text_input("Optional Tag (e.g., _2025_11_21)", value="")
 
 if uploaded_files:
-    if st.button("🔄 Rename and Download"):
+    if st.button("🔄 Rename Files"):
         try:
             results, zip_buffer = rename_uploaded_files(uploaded_files, date_tag)
 
@@ -95,7 +95,7 @@ if uploaded_files:
                 st.write(r)
 
             st.download_button(
-                label="⬇️ Download Renamed PDFs ZIP",
+                label="⬇️ Download Renamed PDFs",
                 data=zip_buffer,
                 file_name="renamed_pdfs.zip",
                 mime="application/zip"
