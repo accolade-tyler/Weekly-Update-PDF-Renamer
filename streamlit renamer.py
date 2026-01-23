@@ -10,7 +10,7 @@ import io
 # -----------------------------------
 CLIENT_LIST = [
     "1st Mississippi FCU", "Abbey CU", "Achieve CU", "Advantage CU", "Ashland CU",
-    "Bayer Heritage FCU", "Best Reward CU", "Buckeye State CU", "Christian Family CU",
+    "Bayer Heritage FCU", "Best Reward FCU", "Buckeye State CU", "Christian Family CU",
     "Cincinnati Ohio Police FCU", "Coastline FCU", "DESCO FCU", "Education CU",
     "Emerald CU", "Expree CU", "Firefighters & Company FCU", "Gulf Coast Community FCU",
     "LCE FCU", "Medina County FCU", "Members Exchange FCU", "MyUSA CU", "Navigator FCU",
@@ -105,3 +105,4 @@ if uploaded_files:
 
         except Exception as e:
             st.error(f"Error: {e}")
+
