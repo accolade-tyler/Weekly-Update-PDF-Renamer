@@ -9,15 +9,15 @@ import io
 # CLIENT LIST
 # -----------------------------------
 CLIENT_LIST = [
-    "1st Mississippi FCU", "Abbey CU", "Achieve CU", "Advantage CU", "Ashland CU",
-    "Bayer Heritage FCU", "Best Reward FCU", "Buckeye State CU", "Christian Family CU",
-    "Cincinnati Ohio Police FCU", "Coastline FCU", "DESCO FCU", "Education CU",
+    "1st Mississippi FCU ", "Abbey CU ", "Achieve CU ", "Advantage CU ", "Ashland CU ",
+    "Bayer Heritage FCU ", "Best Reward FCU ", "Buckeye State CU ", "Christian Family CU ",
+    "Cincinnati Ohio Police FCU ", "Coastline FCU ", "DESCO FCU ", "Education CU ",
     "Emerald CU", "Expree CU", "Firefighters & Company FCU", "Gulf Coast Community FCU",
-    "LCE FCU", "Medina County FCU", "Members Exchange FCU", "MyUSA CU", "Navigator FCU",
-    "NuVista FCU", "Ohio Valley Community FCU", "Pathways Financial CU",
-    "Perfect Circle CU", "PSE CU", "Quest FCU", "Sharefax CU", "Singing River FCU",
-    "Sno Falls CU", "Sunbelt FCU", "Telhio CU", "The Ohio Education CU", "Towpath CU",
-    "Triangle FCU", "UNO FCU", "Wayne County Community FCU", "Yolo FCU"
+    "LCE FCU ", "Medina County FCU ", "Members Exchange FCU ", "MyUSA CU ", "Navigator FCU ",
+    "NuVista FCU ", "Ohio Valley Community FCU ", "Pathways Financial CU ",
+    "Perfect Circle CU ", "PSE CU ", "Quest FCU ", "Sharefax CU ", "Singing River FCU ",
+    "Sno Falls CU ", "Sunbelt FCU ", "Telhio CU ", "The Ohio Education CU ", "Towpath CU ",
+    "Triangle FCU ", "UNO FCU ", "Wayne County Community FCU ", "Yolo FCU "
 ]
 
 # -----------------------------------
@@ -105,4 +105,5 @@ if uploaded_files:
 
         except Exception as e:
             st.error(f"Error: {e}")
+
 
