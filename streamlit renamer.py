@@ -12,7 +12,7 @@ CLIENT_LIST = [
     "1st Mississippi FCU ", "Abbey CU ", "Achieve CU ", "Advantage CU ", "Ashland CU ",
     "Bayer Heritage FCU ", "Best Reward FCU ", "Buckeye State CU ", "Christian Family CU ",
     "Cincinnati Ohio Police FCU ", "Coastline FCU ", "DESCO FCU ", "Education CU ",
-    "Emerald CU", "Expree CU", "Firefighters & Company FCU", "Gulf Coast Community FCU",
+    "Emerald CU", "Expree CU", "Firefighters & Company FCU", "Golden Circle CU", "Gulf Coast Community FCU", "Hopewell FCU",
     "LCE FCU ", "Medina County FCU ", "Members Exchange FCU ", "MyUSA CU ", "Navigator FCU ",
     "NuVista FCU ", "Ohio Valley Community FCU ", "Pathways Financial CU ",
     "Perfect Circle CU ", "PSE CU ", "Quest FCU ", "Sharefax CU ", "Singing River FCU ",
@@ -105,5 +105,6 @@ if uploaded_files:
 
         except Exception as e:
             st.error(f"Error: {e}")
+
 
 
