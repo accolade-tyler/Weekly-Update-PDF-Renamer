@@ -17,7 +17,7 @@ CLIENT_LIST = [
     "NuVista FCU ", "Ohio Valley Community FCU ", "Pathways Financial CU ",
     "Perfect Circle CU ", "PSE CU ", "Quest FCU ", "Sharefax CU ", "Singing River FCU ",
     "Sno Falls CU ", "Sunbelt FCU ", "Telhio CU ", "The Ohio Education CU ", "Towpath CU ",
-    "Triangle FCU ", "UNO FCU ", "Wayne County Community FCU ", "Yolo FCU ", "Diversified Members CU"
+    "Triangle FCU ", "UNO FCU ", "Wayne County Community FCU ", "Yolo FCU ", "Diversified Members CU "
 ]
 
 # -----------------------------------
